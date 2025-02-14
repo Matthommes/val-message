@@ -2,29 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>For My Darling Esther</title>
     <style>
+        html, body {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             perspective: 1000px;
-            box-sizing: border-box;
         }
         
         .card-container {
-            width: 100%;
+            width: 90%;
             max-width: 600px;
-            height: 80vh;
+            height: 85vh;
             position: relative;
             transition: transform 0.8s;
             transform-style: preserve-3d;
+            margin: auto;
         }
         
         .card-container.flipped {
@@ -41,26 +47,36 @@
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             background-color: white;
-            padding: 20px;
             box-sizing: border-box;
+            overflow: hidden; /* Changed from overflow-y: auto */
+        }
+
+        .scroll-content {
+            height: 100%;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            padding: 20px;
+            box-sizing: border-box;
+            /* Prevent rubber-band scrolling on iOS */
+            overscroll-behavior: contain;
+            position: relative;
+            z-index: 1;
         }
         
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100%;
+            padding-bottom: 20px;
+        }
+
         .card-back {
             transform: rotateY(180deg);
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        
-        .card-content {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        
+
+        /* Rest of your styles remain the same */
         h1 {
             color: #e83e8c;
             font-size: 2.5rem;
@@ -74,79 +90,7 @@
             line-height: 1.8;
             font-size: 1.2rem;
             margin-bottom: 30px;
-        }
-        
-        .card-front p {
-            text-align: center;
-        }
-        
-        .card-back p {
-            text-align: left;
-            color: #555;
-        }
-        
-        .heart {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #ff5e8f;
-            transform: rotate(45deg);
-            animation: float 4s ease-in-out infinite;
-            z-index: -1;
-        }
-        
-        .heart::before,
-        .heart::after {
-            content: '';
-            width: 30px;
-            height: 30px;
-            background-color: #ff5e8f;
-            position: absolute;
-            border-radius: 50%;
-        }
-        
-        .heart::before {
-            top: -15px;
-            left: 0;
-        }
-        
-        .heart::after {
-            top: 0;
-            left: -15px;
-        }
-        
-        .flower {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            z-index: -1;
-        }
-        
-        .petal {
-            position: absolute;
-            width: 15px;
-            height: 15px;
-            background-color: #ffb6c1;
-            border-radius: 15px 0;
-            transform-origin: bottom right;
-        }
-        
-        .center {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffd700;
-            border-radius: 50%;
-            top: 15px;
-            left: 15px;
-        }
-        
-        .signature {
-            font-style: italic;
-            margin-top: 40px;
-            color: #e83e8c;
-            font-size: 1.3rem;
-            text-align: right;
+            -webkit-font-smoothing: antialiased;
         }
         
         .button {
@@ -161,62 +105,28 @@
             margin: 20px auto;
             display: block;
             -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 2;
         }
-        
-        .button:hover {
-            background-color: #d83178;
-            transform: scale(1.05);
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(45deg); }
-            50% { transform: translateY(-20px) rotate(45deg); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        @media (max-height: 600px) {
-            .card-container {
-                height: 70vh;
-            }
-            
-            h1 {
-                font-size: 2rem;
-                margin-bottom: 15px;
-            }
-            
-            p {
-                margin-bottom: 20px;
-            }
-        }
-        
+
+        /* Your existing animations and other styles... */
+
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
+            .card-container {
+                width: 95%;
+                height: 80vh;
             }
-            
+
             h1 {
                 font-size: 2rem;
             }
-            
+
             p {
                 font-size: 1.1rem;
+                margin-bottom: 20px;
             }
-            
-            .card-front,
-            .card-back {
-                padding: 15px;
-            }
-            
-            .card-content {
+
+            .scroll-content {
                 padding: 15px;
             }
         }
@@ -225,42 +135,44 @@
 <body>
     <div class="card-container" id="cardContainer">
         <div class="card-front">
-            <div class="card-content">
-                <div>
-                    <h1>For My Beautiful Esther</h1>
-                    <p>On this Valentine's Day, I want to tell you how much joy and happiness you bring into my life. Every moment with you is a treasure that I hold dear to my heart.</p>
-                    <p>Your smile lights up my world, your laugh is my favorite melody, and your love is the greatest gift I could ever ask for.</p>
-                </div>
-                <div>
-                    <button class="button" id="flipButton">Touch Me ❤️</button>
-                    <p class="signature">With all my love,<br>Matt</p>
+            <div class="scroll-content">
+                <div class="card-content">
+                    <div>
+                        <h1>For My Beautiful Esther</h1>
+                        <p>On this Valentine's Day, I want to tell you how much joy and happiness you bring into my life. Every moment with you is a treasure that I hold dear to my heart.</p>
+                        <p>Your smile lights up my world, your laugh is my favorite melody, and your love is the greatest gift I could ever ask for.</p>
+                    </div>
+                    <div>
+                        <button class="button" id="flipButton">Touch Me ❤️</button>
+                        <p class="signature">With all my love,<br>Matt</p>
+                    </div>
                 </div>
             </div>
         </div>
         
         <div class="card-back">
-            <div class="card-content">
-                <div>
-                    <h1>My Dearest Esther ❤️</h1>
-                    <p>
-                        I know I might not have made today as special as I should have, but as I sit here thinking about you, I can't help but feel grateful. How do I even begin to express what you mean to me? You've left an imprint on my life in ways I never expected, and I was completely wrong to ever compare you to anyone else. You are one of a kind—irreplaceable and truly special. ✨
-                    </p>
-                    <p>
-                        I admire so much about you—the way you make me laugh 😂, the way you show up for me, the way you understand me even when I don't say much. Your kindness, your passion, and yes, even that gorgeous bumbum 🍑—everything about you is uniquely you, and that's what makes you so amazing.
-                    </p>
-                    <p>
-                        You bring light into my life in ways I don't always know how to explain. Whether we're joking around, having deep conversations, or just enjoying the silence, there's a comfort in your presence that I don't take for granted. 🌹
-                    </p>
-                    <p>
-                        I appreciate every moment we've shared—the laughter, the serious talks, and even the misunderstandings. You have a way of standing your ground, of knowing what you deserve, and I respect that more than I can say. You push me to be better, and that's something rare.
-                    </p>
-                </div>
-                <div>
-                    <p>
-                        So, on this Valentine's Day, even if things aren't perfect, I just want you to know you are appreciated. You're one of the most incredible people I know, and I hope you never forget that. 💕
-                    </p>
-                    <p class="signature">Always rooting for you,<br>Matt ✨</p>
-                    <button class="button" id="backButton">Return to Card</button>
+            <div class="scroll-content">
+                <div class="card-content">
+                    <div>
+                        <h1>My Dearest Esther ❤️</h1>
+                        <p>
+                            I know I might not have made today as special as I should have, but as I sit here thinking about you, I can't help but feel grateful. How do I even begin to express what you mean to me? You've left an imprint on my life in ways I never expected, and I was completely wrong to ever compare you to anyone else. You are one of a kind—irreplaceable and truly special. ✨
+                        </p>
+                        <p>
+                            I admire so much about you—the way you make me laugh 😂, the way you show up for me, the way you understand me even when I don't say much. Your kindness, your passion, and yes, even that gorgeous bumbum 🍑—everything about you is uniquely you, and that's what makes you so amazing.
+                        </p>
+                        <p>
+                            You bring light into my life in ways I don't always know how to explain. Whether we're joking around, having deep conversations, or just enjoying the silence, there's a comfort in your presence that I don't take for granted. 🌹
+                        </p>
+                        <p>
+                            I appreciate every moment we've shared—the laughter, the serious talks, and even the misunderstandings. You have a way of standing your ground, of knowing what you deserve, and I respect that more than I can say. You push me to be better, and that's something rare.
+                        </p>
+                        <p>
+                            So, on this Valentine's Day, even if things aren't perfect, I just want you to know you are appreciated. You're one of the most incredible people I know, and I hope you never forget that. 💕
+                        </p>
+                        <button class="button" id="backButton">Return to Card</button>
+                        <p class="signature">Always rooting for you,<br>Matt ✨</p>
+                    </div>
                 </div>
             </div>
         </div>
